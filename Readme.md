@@ -12,9 +12,9 @@ Read the Tutorial - https://www.callicoder.com/hibernate-spring-boot-jpa-one-to-
 
 //////////////
 
-DROP SCHEMA IF EXISTS datacollector;
-CREATE SCHEMA datacollector;
-USE datacollector;
+DROP SCHEMA IF EXISTS trends;
+CREATE SCHEMA trends;
+USE trends;
 SET AUTOCOMMIT=1;
 
 create table metrics
@@ -25,7 +25,7 @@ create table metrics
 )
 ;
 
-create table languages
+create table technologies
 (
   id         bigint auto_increment PRIMARY KEY,
   name        varchar(100) not null
@@ -40,29 +40,30 @@ create table repositories
 )
 ;
 
-create table data
+create table statistic
 (
   metric_id     bigint not null,
   repository_id bigint not null,
-  language_id   bigint not null,
+  technology_id   bigint not null,
   report_date          date not null,
   value         DECIMAL(12,4)
 )
 ;
 
-create index METRIC_IDX on data(metric_id);
-create index REPOSITORY_IDX on data(repository_id);
-create index LANGUAGE_IDX on data(language_id);
-create index DATA_IDX on data(report_date);
-alter table data
-  add constraint DATA_PK primary key (METRIC_ID, REPOSITORY_ID, LANGUAGE_ID, REPORT_DATE);
-alter table data
+create index METRIC_IDX on statistic(metric_id);
+create index REPOSITORY_IDX on statistic(repository_id);
+create index TECHNOLOGY_IDX on statistic(technology_id);
+create index REPORT_DATA_IDX on statistic(report_date);
+
+alter table statistic
+  add constraint STATISTIC_PK primary key (METRIC_ID, REPOSITORY_ID, TECHNOLOGY_ID, REPORT_DATE);
+alter table statistic
   add constraint REPOSITORY_FK foreign key (REPOSITORY_ID)
   references repositories(ID) on delete RESTRICT;
-alter table data
-  add constraint LANGUAGE_FK foreign key (LANGUAGE_ID)
-  references languages(ID) on delete RESTRICT;
-alter table data
+alter table statistic
+  add constraint TECHNOLOGY_FK foreign key (TECHNOLOGY_ID)
+  references technologies(ID) on delete RESTRICT;
+alter table statistic
   add constraint METRIC_FK foreign key (METRIC_ID)
   references metrics(ID) on delete RESTRICT;
 

@@ -1,12 +1,12 @@
 package com.example.jpa;
 
 import com.example.jpa.model.CodeRepository;
-import com.example.jpa.model.Data;
-import com.example.jpa.model.Language;
+import com.example.jpa.model.Statistic;
+import com.example.jpa.model.Technology;
 import com.example.jpa.model.Metric;
 import com.example.jpa.repository.CodeRepositoryRepository;
-import com.example.jpa.repository.DataRepository;
-import com.example.jpa.repository.LanguageRepository;
+import com.example.jpa.repository.StatisticRepository;
+import com.example.jpa.repository.TechnologyRepository;
 import com.example.jpa.repository.MetricRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class JpaOneToManyDemoApplicationTests {
 
 	@Autowired
-	private DataRepository dataRepository;
+	private StatisticRepository statisticRepository;
 
 	@Autowired
 	private MetricRepository metricRepository;
@@ -32,19 +32,19 @@ public class JpaOneToManyDemoApplicationTests {
 	private CodeRepositoryRepository codeRepositoryRepository;
 
 	@Autowired
-	private LanguageRepository languageRepository;
+	private TechnologyRepository technologyRepository;
 
 	@Test
 	public void contextLoads() {
-		Language language;
+		Technology technology;
 		String langName = "lang1";
-		Optional<Language> optLang = languageRepository.findByName(langName);
+		Optional<Technology> optLang = technologyRepository.findByName(langName);
 		if (optLang.isPresent()) {
-			language = optLang.get();
+			technology = optLang.get();
 		} else {
-			language = new Language();
-			language.setName(langName);
-			languageRepository.save(language);
+			technology = new Technology();
+			technology.setName(langName);
+			technologyRepository.save(technology);
 		}
 
 		CodeRepository codeRepository;
@@ -69,14 +69,14 @@ public class JpaOneToManyDemoApplicationTests {
 			metricRepository.save(metric);
 		}
 
-		Data data = new Data();
-		data.setMetric(metric);
-		data.setRepository(codeRepository);
-		data.setLanguage(language);
-		data.setReportDate(new Date());
-		data.setValue(new BigDecimal(123.45));
+		Statistic statistic = new Statistic();
+		statistic.setMetric(metric);
+		statistic.setRepository(codeRepository);
+		statistic.setTechnology(technology);
+		statistic.setReportDate(new Date());
+		statistic.setValue(new BigDecimal(123.45));
 
-		dataRepository.save(data);
+		statisticRepository.save(statistic);
 
 
 	}

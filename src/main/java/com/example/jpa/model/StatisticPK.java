@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class DataPK implements Serializable {
+public class StatisticPK implements Serializable {
     private long metric;
     private long repository;
-    private long language;
+    private long technology;
     private Date reportDate;
 
-    public DataPK() {}
+    public StatisticPK() {}
 
-    public DataPK(long metric, long repository, long language, Date reportDate) {
+    public StatisticPK(long metric, long repository, long technology, Date reportDate) {
         this.metric = metric;
         this.repository = repository;
-        this.language = language;
+        this.technology = technology;
         this.reportDate = reportDate;
     }
 
@@ -23,16 +23,16 @@ public class DataPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DataPK dataPK = (DataPK) o;
-        return metric == dataPK.metric &&
-                repository == dataPK.repository &&
-                language == dataPK.language &&
-                reportDate.equals(dataPK.reportDate);
+        StatisticPK statisticPK = (StatisticPK) o;
+        return metric == statisticPK.metric &&
+                repository == statisticPK.repository &&
+                technology == statisticPK.technology &&
+                reportDate.equals(statisticPK.reportDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(metric, repository, language, reportDate);
+        return Objects.hash(metric, repository, technology, reportDate);
     }
 
     public long getMetric() {
@@ -51,12 +51,12 @@ public class DataPK implements Serializable {
         this.repository = repository;
     }
 
-    public long getLanguage() {
-        return language;
+    public long getTechnology() {
+        return technology;
     }
 
-    public void setLanguage(long language) {
-        this.language = language;
+    public void setTechnology(long technology) {
+        this.technology = technology;
     }
 
     public Date getReportDate() {

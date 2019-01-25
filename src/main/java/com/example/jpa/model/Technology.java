@@ -10,8 +10,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "languages")
-public class Language {
+@Table(name = "technologies")
+public class Technology {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
