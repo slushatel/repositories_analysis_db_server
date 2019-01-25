@@ -68,3 +68,11 @@ alter table statistic
   references metrics(ID) on delete RESTRICT;
 
 /////////////////////////////////////
+
+curl -X POST -H 'Content-Type: application/json' -i http://localhost:8080/statistics --data '[{"metric":"metric1", "repository":"repository1", "technology":"technology1", "reportDate":"2015-04-01", "value":"40.345"}
+, {"metric":"metric1", "repository":"repository1", "technology":"technology1", "reportDate":"2015-05-01", "value":"50.345"}]
+'
+
+curl -X GET -i 'http://localhost:8080/statistics?metric_id=1&repository_id=1&date_from=2015-02-01&date_to=2015-05-01' --data '
+'
+
