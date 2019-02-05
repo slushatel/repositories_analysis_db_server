@@ -54,6 +54,6 @@ public class Statistic {
     private Date reportDate;
 
     @NotNull
-    @Column(precision=12, scale=4)
+    @Column(precision=33, scale=8)
     private BigDecimal value;
 }
