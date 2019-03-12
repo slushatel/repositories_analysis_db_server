@@ -1,0 +1,43 @@
+with `popularity_all` (`metric`,`repository`,`technology`,`report_date`,`value`)
+as (
+SELECT
+    `m`.`name` AS `metric`,
+    `r`.`name` AS `repository`,
+    `t`.`name` AS `technology`,
+    `st`.`report_date` AS `report_date`,
+    ((`st`.`value` / `st_sum`.`sum_value`) * 100) AS `value`
+FROM
+    ((((`trends`.`statistic` `st`
+    JOIN `trends`.`metrics` `m` ON ((`st`.`metric_id` = `m`.`id`)))
+    JOIN `trends`.`repositories` `r` ON ((`st`.`repository_id` = `r`.`id`)))
+    JOIN `trends`.`technologies` `t` ON ((`st`.`technology_id` = `t`.`id`)))
+    JOIN (SELECT
+        `st`.`metric_id` AS `metric_id`,
+            `st`.`repository_id` AS `repository_id`,
+            `st`.`report_date` AS `report_date`,
+            SUM(`st`.`value`) AS `sum_value`
+    FROM
+        `trends`.`statistic` `st`
+    GROUP BY `st`.`metric_id` , `st`.`repository_id` , `st`.`report_date`) `st_sum` ON (((`st_sum`.`report_date` = `st`.`report_date`)
+        AND (`st_sum`.`repository_id` = `st`.`repository_id`)
+        AND (`st_sum`.`metric_id` = `st`.`metric_id`))))
+WHERE
+    (`m`.`name` = 'byte size')
+        AND (`r`.`name` IN ('gitlab' , 'github'))
+)
+
+SELECT
+    `popularity_all`.`metric` AS `metric`,
+    `popularity_all`.`repository` AS `repository`,
+    `popularity_all`.`technology` AS `technology`,
+    `popularity_all`.`report_date` AS `report_date`,
+    `popularity_all`.`value` AS `value`
+FROM
+    (`popularity_all`
+    JOIN (SELECT DISTINCT
+        `popularity_all`.`technology` AS `technology`
+    FROM
+        `popularity_all`
+    WHERE
+        (`popularity_all`.`value` >= 3)) `top_tech` ON ((`popularity_all`.`technology` = `top_tech`.`technology`)))
+ORDER BY `popularity_all`.`technology`
