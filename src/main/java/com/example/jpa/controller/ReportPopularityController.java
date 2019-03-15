@@ -3,10 +3,12 @@ package com.example.jpa.controller;
 import com.example.jpa.model.CodeRepository;
 import com.example.jpa.model.Metric;
 import com.example.jpa.model.ReportPopularity;
+import com.example.jpa.model.ReportPopularityMonthly;
 import com.example.jpa.model.Statistic;
 import com.example.jpa.model.Technology;
 import com.example.jpa.repository.CodeRepositoryRepository;
 import com.example.jpa.repository.MetricRepository;
+import com.example.jpa.repository.ReportPopularityMonthlyRepository;
 import com.example.jpa.repository.ReportPopularityRepository;
 import com.example.jpa.repository.StatisticRepository;
 import com.example.jpa.repository.TechnologyRepository;
@@ -35,10 +37,18 @@ public class ReportPopularityController {
 
     @Autowired
     private ReportPopularityRepository reportPopularityRepository;
+    @Autowired
+    private ReportPopularityMonthlyRepository reportPopularityMonthlyRepository;
 
     @GetMapping("/popularity")
     public @ResponseBody
-    List<ReportPopularity> getAllStatistics() {
+    List<ReportPopularity> getPopularity() {
         return reportPopularityRepository.findAll();
+    }
+
+    @GetMapping("/popularity/monthly")
+    public @ResponseBody
+    List<ReportPopularityMonthly> getPopularityMonthly() {
+        return reportPopularityMonthlyRepository.findAll();
     }
 }
